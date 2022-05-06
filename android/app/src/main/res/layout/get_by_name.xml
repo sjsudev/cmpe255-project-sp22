@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools ="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bg_black2"
+    tools:context=".GetByName">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Image by Name"
+        android:textSize="100px"
+        android:textColor="#d3d8e3"
+        android:layout_centerHorizontal = "true"
+        android:layout_marginTop="40dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="240dp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/img2"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/no_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="425dp"
+        android:layout_marginTop="420dp"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:scrollbars="vertical"
+            android:fillViewport="true" >
+
+            <ListView
+                android:id="@+id/image_name"
+                android:background="@color/bg_black1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

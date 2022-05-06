@@ -1,0 +1,102 @@
+[
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/layout_get_by_name.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/layout/get_by_name.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/layout_get_all.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/layout/get_all.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_round_button.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/round_button.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/layout_upload.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/layout/upload.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_image_border.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/image_border.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_no_image.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/no_image.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_upload.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/upload.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/generated/res/pngs/debug/drawable-anydpi-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_field.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/field.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/layout_list_item.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/layout/list_item.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/drawable_image.xml.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/drawable/image.xml"
+    },
+    {
+        "merged": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/dn4q/Documents/sjsu/cmpe255-project-sp22/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    }
+]

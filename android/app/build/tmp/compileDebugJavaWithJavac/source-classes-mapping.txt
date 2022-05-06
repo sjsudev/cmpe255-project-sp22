@@ -1,0 +1,23 @@
+com/kitchenservice/fileUpload/Image.java
+ com.kitchenservice.fileUpload.Image
+com/kitchenservice/fileUpload/BuildConfig.java
+ com.kitchenservice.fileUpload.BuildConfig
+com/kitchenservice/fileUpload/MainActivity.java
+ com.kitchenservice.fileUpload.MainActivity
+com/kitchenservice/fileUpload/Upload.java
+ com.kitchenservice.fileUpload.Upload
+ com.kitchenservice.fileUpload.Upload$1
+com/kitchenservice/fileUpload/API.java
+ com.kitchenservice.fileUpload.API
+com/kitchenservice/fileUpload/RetrofitClient.java
+ com.kitchenservice.fileUpload.RetrofitClient
+com/kitchenservice/fileUpload/GetAll.java
+ com.kitchenservice.fileUpload.GetAll
+ com.kitchenservice.fileUpload.GetAll$1
+ com.kitchenservice.fileUpload.GetAll$2
+com/kitchenservice/fileUpload/GetByName.java
+ com.kitchenservice.fileUpload.GetByName
+ com.kitchenservice.fileUpload.GetByName$1
+ com.kitchenservice.fileUpload.GetByName$2
+ com.kitchenservice.fileUpload.GetByName$3
+ com.kitchenservice.fileUpload.GetByName$3$1
