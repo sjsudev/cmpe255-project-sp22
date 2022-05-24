@@ -15,3 +15,7 @@ Software Tools Used :
    b) Tensorflow
    c) Android / MLKit
    d) AWS
+
+Contribution:
+1. Devansh Modi - Modeling, Datasets, Python Flask, and Inference API
+2. Abhighna Kapivalai - Android App, Search API, Research
