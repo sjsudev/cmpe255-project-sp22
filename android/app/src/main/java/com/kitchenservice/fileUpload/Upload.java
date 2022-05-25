@@ -36,6 +36,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -90,8 +91,7 @@ public class Upload extends AppCompatActivity {
                 Cursor cursor = getContentResolver().query(selectedImage, imageProjection, null, null, null);
                 if(cursor != null) {
                     cursor.moveToFirst();
-                    int indexImage = cursor.getColumnIndex(imageProjection[0]);
-                    part_image = "/sdcard/Download/canadiankitchen12.jpeg"; //cursor.getString("indexImage");
+                    part_image = selectedImage.getPath();
                     imgPath.setText(part_image);                                                        // Get the image file absolute path
                     Bitmap bitmap = null;
                     try {
@@ -106,10 +106,13 @@ public class Upload extends AppCompatActivity {
     }
 
     // Upload the image to the remote database
-    public void uploadImage(View view) {
-        File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
-        RequestBody reqBody = RequestBody.create(MediaType.parse("multipart/form-file"), imageFile);
-        MultipartBody.Part partImage = MultipartBody.Part.createFormData("image1", imageFile.getName(), reqBody);
+    public void uploadImage(View view) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount()); //Create a new buffer
+        bitmap.copyPixelsToBuffer(buffer);
+        //File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
+        RequestBody reqBody = RequestBody.create(MediaType.parse("multipart/form-file"), buffer.array());
+        MultipartBody.Part partImage = MultipartBody.Part.createFormData("image1", UUID.randomUUID().toString(), reqBody);
         API api = RetrofitClient.getInstance().getAPI();
         Call<ResponseBody> upload = api.uploadImage(partImage);
         upload.enqueue(new Callback<ResponseBody>() {
@@ -119,15 +122,12 @@ public class Upload extends AppCompatActivity {
                     try {
                         Toast.makeText(Upload.this, "Kitchen Photo Accepted" + response.body().string(), Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(Upload.this, Results.class);
-                        i.putExtra("key",response.body().string());
+                        i.putExtra("key", response.body().string());
                         startActivity(i);                    // Start the activity to get all images
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //Intent main = new Intent(Upload.this, MainActivity.class);
-                    //main.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    //startActivity(main);
                 }
             }
 
@@ -140,9 +140,10 @@ public class Upload extends AppCompatActivity {
 
     // Upload the image to the remote database
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void uploadImageTfLite(View view) {
+    public void uploadImageTfLite(View view) throws IOException {
         long startTime = SystemClock.uptimeMillis();
-        File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
+        //File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
+        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
         try {
             // Initialize interpreter with GPU delegate
             Interpreter.Options options = new Interpreter.Options();
@@ -164,7 +165,7 @@ public class Upload extends AppCompatActivity {
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 512, 512, 3}, DataType.FLOAT32);
-            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imageFile.getPath()), 512, 512, true);
+            Bitmap bitmap = Bitmap.createScaledBitmap(imageBitmap, 512, 512, true);
             ByteBuffer byteBuffer = convertBitmapToByteBuffer(bitmap);
             inputFeature0.loadBuffer(byteBuffer);
 
@@ -176,6 +177,12 @@ public class Upload extends AppCompatActivity {
             String runTime = String.valueOf(endTime - startTime);
 
             Log.d("Result", "kitchenClassifer: " + runTime + "ms");
+
+            Thread.sleep(3000);
+
+            Intent i = new Intent(Upload.this, Results.class);
+            i.putExtra("key", getResult(result));
+            startActivity(i);
         } catch (Exception e) {
             // TODO Handle the exception
             Toast.makeText(Upload.this, "Kitchen Not Accepted" + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -189,15 +196,17 @@ public class Upload extends AppCompatActivity {
 
         List<String> labelList = new ArrayList<>();
         labelList.add("One-Wall Layout");
-        labelList.add("L-Shaped Layout");
         labelList.add("U-Shaped Layout");
+        labelList.add("L-Shaped Layout");
 
         for (int i = 0; i < labelList.size(); ++i) {
             // confidence : 확신, detection percentage
             float confidence = (labelProbArray[0][i] * 100) / 127.0f; //  & 0xff 삭제해봄, 임시방편으로 100 곱하니까 퍼센트값 잘 나옴ㅠㅠ
 
+            Log.d("Result", "kitchenClassifer: Confidence:" + labelProbArray[0][i]);
+
             // 0.1(10%) 이상이면 통과, 출력 준비
-            if (confidence > 0) {
+            if (Math.abs(labelProbArray[0][i]) > 0.08) {
                 return labelList.get(i);
             }
         }

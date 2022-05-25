@@ -25,5 +25,19 @@ public class RetrofitClient {
     public API getAPI() {
         return retrofit.create(API.class);
     }
+
+    public API getImageAPI() {
+        return new Retrofit.Builder()
+                .baseUrl("https://api.jsonbin.io/v3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(API.class);
+    }
+
+    public API getSearchAPI() {
+        return new Retrofit.Builder()
+                .baseUrl("https://api.jsonbin.io/v3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(API.class);
+    }
 }
 

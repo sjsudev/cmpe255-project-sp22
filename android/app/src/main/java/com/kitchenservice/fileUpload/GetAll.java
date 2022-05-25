@@ -38,7 +38,7 @@ public class GetAll extends AppCompatActivity {
     }
 
     public void fetch() {                                                                               // Method to fetch all images
-        API api = RetrofitClient.getInstance().getAPI();
+        API api = RetrofitClient.getInstance().getImageAPI();
         Call<List<Image>> getImages = api.getImages();
         getImages.enqueue(new Callback<List<Image>>() {
             @Override

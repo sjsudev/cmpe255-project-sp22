@@ -39,8 +39,13 @@ public class Results extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("key");
-            results.setText("Kitchen is L-Shaped and Has microwave, stone countertop, sink, wood cabinet.");
+            results.setText(value + " .Has microwave, stone countertop, sink, wood cabinet.");
             //The key argument here must match that used in the other activity
         }
+    }
+
+    public void shopNow(View view) {
+        Intent i = new Intent(Results.this, ListProductsActivity.class);
+        startActivity(i);
     }
 }

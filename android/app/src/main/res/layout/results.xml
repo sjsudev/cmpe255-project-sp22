@@ -29,18 +29,19 @@
         android:id="@+id/dddd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textCursorDrawable="@null"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/field"
+        android:clickable="true"
         android:drawableStart="@drawable/image"
         android:drawableEnd="@drawable/upload"
         android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="Shop Now..."
+        android:onClick="shopNow"
         android:textColor="@color/element_white"
-        android:text="Results..."
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="500dp"
-        android:clickable="true"
-        android:background="@drawable/field"
-        android:gravity="center" />
+        android:textCursorDrawable="@null" />
 
     <TextView
         android:id="@+id/dk1"
