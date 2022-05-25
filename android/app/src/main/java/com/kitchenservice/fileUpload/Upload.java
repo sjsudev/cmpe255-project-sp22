@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.gpu.CompatibilityList;
+import org.tensorflow.lite.gpu.GpuDelegate;
 import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
@@ -142,8 +144,23 @@ public class Upload extends AppCompatActivity {
         long startTime = SystemClock.uptimeMillis();
         File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
         try {
+            // Initialize interpreter with GPU delegate
+            Interpreter.Options options = new Interpreter.Options();
+            CompatibilityList compatList = new CompatibilityList();
+
+            if(compatList.isDelegateSupportedOnThisDevice()){
+                // if the device has a supported GPU, add the GPU delegate
+                GpuDelegate.Options delegateOptions = compatList.getBestOptionsForThisDevice();
+                GpuDelegate gpuDelegate = new GpuDelegate(delegateOptions);
+                options.addDelegate(gpuDelegate);
+                Log.d("Result", "kitchenClassifer: GPU Enabled for Tensorflow.");
+            } else {
+                // if the GPU is not supported, run on 4 threads
+                options.setNumThreads(4);
+            }
+
             //ConvertedModel model = ConvertedModel.newInstance(this);
-            Interpreter interpreter = new Interpreter(FileUtil.loadMappedFile(this, "converted_model.tflite"));
+            Interpreter interpreter = new Interpreter(FileUtil.loadMappedFile(this, "converted_model.tflite"), options);
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 512, 512, 3}, DataType.FLOAT32);
