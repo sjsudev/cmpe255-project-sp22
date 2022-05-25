@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Image Upload Menu"
+        android:text="Remodeling Assistant"
         android:textSize="100px"
         android:textColor="#d3d8e3"
         android:layout_alignParentTop = "true"
@@ -20,30 +20,50 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GET IMAGES"
-        android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="550dp"
-        android:elevation="10dp"
-        android:textColor="@color/element_white"
-        android:textSize="20dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginRight="40dp"
         android:background="@drawable/round_button"
+        android:elevation="10dp"
+        android:gravity="center"
         android:onClick="GetAll"
-        android:gravity="center"/>
+        android:text="GET IMAGES"
+        android:textColor="@color/element_white"
+        android:textSize="20dp" />
+
+
 
     <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UPLOAD IMAGE"
-        android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="650dp"
-        android:elevation="10dp"
-        android:textColor="@color/element_white"
-        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/round_button"
+        android:elevation="10dp"
+        android:gravity="center"
         android:onClick="Upload"
-        android:gravity="center"/>
+        android:text="UPLOAD IMAGE (Tf Lite)"
+        android:textColor="@color/element_white"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/round_button"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:onClick="Upload"
+        android:text="UPLOAD IMAGE (API Request)"
+        android:textColor="@color/element_white"
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -51,7 +71,7 @@
         android:text="GET IMAGE BY NAME"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="750dp"
+        android:layout_marginTop="400dp"
         android:elevation="10dp"
         android:textColor="@color/element_white"
         android:textSize="20dp"

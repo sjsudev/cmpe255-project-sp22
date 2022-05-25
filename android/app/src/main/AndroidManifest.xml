@@ -25,6 +25,7 @@
 
         <activity android:name="com.kitchenservice.fileUpload.GetAll" />
         <activity android:name="com.kitchenservice.fileUpload.Upload" />
+        <activity android:name="com.kitchenservice.fileUpload.Results" />
         <activity android:name="com.kitchenservice.fileUpload.GetByName" />
     </application>
 

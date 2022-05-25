@@ -1,5 +1,6 @@
 package com.kitchenservice.fileUpload;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -9,7 +10,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -17,8 +20,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kitchenservice.fileUpload.ml.ConvertedModel;
+
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -71,7 +81,7 @@ public class Upload extends AppCompatActivity {
                 if(cursor != null) {
                     cursor.moveToFirst();
                     int indexImage = cursor.getColumnIndex(imageProjection[0]);
-                    part_image = cursor.getString(indexImage);
+                    part_image = "/sdcard/Download/canadiankitchen12.jpeg"; //cursor.getString("indexImage");
                     imgPath.setText(part_image);                                                        // Get the image file absolute path
                     Bitmap bitmap = null;
                     try {
@@ -96,10 +106,18 @@ public class Upload extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
-                    Toast.makeText(Upload.this, "Image Uploaded" + response.message(), Toast.LENGTH_SHORT).show();
-                    Intent main = new Intent(Upload.this, MainActivity.class);
-                    main.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(main);
+                    try {
+                        Toast.makeText(Upload.this, "Kitchen Photo Accepted" + response.body().string(), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(Upload.this, Results.class);
+                        i.putExtra("key",response.body().string());
+                        startActivity(i);                    // Start the activity to get all images
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //Intent main = new Intent(Upload.this, MainActivity.class);
+                    //main.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //startActivity(main);
                 }
             }
 
@@ -109,6 +127,36 @@ public class Upload extends AppCompatActivity {
             }
         });
     }
+
+    // Upload the image to the remote database
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void uploadImageTfLite(View view) {
+        File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
+        try {
+            ConvertedModel model = ConvertedModel.newInstance(this);
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 512, 512, 3}, DataType.FLOAT32);
+            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imageFile.getPath()), 512, 512, true);
+            ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount()); //Create a new buffer
+            bitmap.copyPixelsToBuffer(buffer);
+            inputFeature0.loadBuffer(buffer);
+
+            // Runs model inference and gets result.
+            ConvertedModel.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+            Toast.makeText(Upload.this, "Kitchen Photo Accepted" + outputFeature0.toString(), Toast.LENGTH_SHORT).show();
+
+            // Releases model resources if no longer used.
+            model.close();
+        } catch (Exception e) {
+            // TODO Handle the exception
+            Toast.makeText(Upload.this, "Kitchen Not Accepted" + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
 
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
