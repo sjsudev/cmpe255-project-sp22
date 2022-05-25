@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,21 +15,25 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kitchenservice.fileUpload.ml.ConvertedModel;
-
 import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.file.Files;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,6 +50,9 @@ public class Upload extends AppCompatActivity {
     ImageView image;
     Uri selectedImage;
     String part_image;
+
+    private static final int IMAGE_MEAN = 256;
+    private static final float IMAGE_STD = 256.0f;
 
     // Permissions for accessing the storage
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -131,30 +139,69 @@ public class Upload extends AppCompatActivity {
     // Upload the image to the remote database
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void uploadImageTfLite(View view) {
+        long startTime = SystemClock.uptimeMillis();
         File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
         try {
-            ConvertedModel model = ConvertedModel.newInstance(this);
+            //ConvertedModel model = ConvertedModel.newInstance(this);
+            Interpreter interpreter = new Interpreter(FileUtil.loadMappedFile(this, "converted_model.tflite"));
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 512, 512, 3}, DataType.FLOAT32);
             Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imageFile.getPath()), 512, 512, true);
-            ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount()); //Create a new buffer
-            bitmap.copyPixelsToBuffer(buffer);
-            inputFeature0.loadBuffer(buffer);
+            ByteBuffer byteBuffer = convertBitmapToByteBuffer(bitmap);
+            inputFeature0.loadBuffer(byteBuffer);
 
-            // Runs model inference and gets result.
-            ConvertedModel.Outputs outputs = model.process(inputFeature0);
-            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
-            Toast.makeText(Upload.this, "Kitchen Photo Accepted" + outputFeature0.toString(), Toast.LENGTH_SHORT).show();
+            float[][] result = new float[1][3];
+            interpreter.run(byteBuffer, result);
+            Toast.makeText(Upload.this, "Kitchen Photo Accepted" + getResult(result), Toast.LENGTH_LONG).show();
 
-            // Releases model resources if no longer used.
-            model.close();
+            long endTime = SystemClock.uptimeMillis();
+            String runTime = String.valueOf(endTime - startTime);
+
+            Log.d("Result", "kitchenClassifer: " + runTime + "ms");
         } catch (Exception e) {
             // TODO Handle the exception
-            Toast.makeText(Upload.this, "Kitchen Not Accepted" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Upload.this, "Kitchen Not Accepted" + e.getMessage(), Toast.LENGTH_LONG).show();
 
         }
 
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String getResult(float[][] labelProbArray) {
+
+        List<String> labelList = new ArrayList<>();
+        labelList.add("One-Wall Layout");
+        labelList.add("L-Shaped Layout");
+        labelList.add("U-Shaped Layout");
+
+        for (int i = 0; i < labelList.size(); ++i) {
+            // confidence : 확신, detection percentage
+            float confidence = (labelProbArray[0][i] * 100) / 127.0f; //  & 0xff 삭제해봄, 임시방편으로 100 곱하니까 퍼센트값 잘 나옴ㅠㅠ
+
+            // 0.1(10%) 이상이면 통과, 출력 준비
+            if (confidence > 0) {
+                return labelList.get(i);
+            }
+        }
+        return "No Labels";
+    }
+
+    private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 512 * 512 * 3);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        int[] intValues = new int[512 * 512];
+        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        int pixel = 0;
+        for (int i = 0; i < 512; ++i) {
+            for (int j = 0; j < 512; ++j) {
+                final int val = intValues[pixel++];
+                byteBuffer.putFloat((((val >> 16) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
+                byteBuffer.putFloat((((val >> 8) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
+                byteBuffer.putFloat((((val) & 0xFF)-IMAGE_MEAN)/IMAGE_STD);
+            }
+        }
+        return byteBuffer;
     }
 
 
