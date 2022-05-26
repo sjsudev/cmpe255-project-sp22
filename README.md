@@ -11,7 +11,7 @@ Existing Difficulties :
        There aren't enough open-source datasets to train a classification model for kitchens. To predict meaningful classifiers with high accuracy, a large dataset is required. For a real-time solution, low latency is required. 
        
 Software Tools Used :
-a) Python Flask
-b) Tensorflow
+   a) Python Flask
+   b) Tensorflow
 c) Android / MLKit
 d) AWS
