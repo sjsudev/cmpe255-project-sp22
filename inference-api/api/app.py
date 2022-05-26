@@ -12,7 +12,10 @@ from .frontend import frontend, ContactUsAdmin
 from .extensions import db, mail, cache, login_manager, admin
 from .utils import INSTANCE_FOLDER_PATH, pretty_date
 import uuid
-#import json
+import numpy as np
+from numpy import asarray
+from PIL import Image
+import tensorflow as tf
 
 # For import *
 __all__ = ['create_app']
@@ -46,6 +49,19 @@ def create_app(config=None, app_name=None, blueprints=None):
     configure_template_filters(app)
     configure_error_handlers(app)
     configure_inference_handlers(app)
+
+    gpus = tf.config.list_physical_devices('GPU')
+    if gpus:
+    # Restrict TensorFlow to only allocate 1GB of memory on the first GPU
+        try:
+            tf.config.set_logical_device_configuration(
+                gpus[0],
+                [tf.config.LogicalDeviceConfiguration(memory_limit=1024)])
+            logical_gpus = tf.config.list_logical_devices('GPU')
+            print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+        except RuntimeError as e:
+            # Virtual devices must be set before GPUs have been initialized
+            print(e)
 
     return app
 
@@ -132,13 +148,37 @@ def configure_error_handlers(app):
     def server_error_page(error):
         return "Oops! Internal server error. Please try after sometime.", 500
 
-def make_summary():
+def make_summary(file):
     # model inference here
-    # model.eval()
+    CLASSES = sorted(['One-Wall Layout', 'L-Shaped Layout', 'U-Shaped Layout'])
+
+    # Load the TFLite model and allocate tensors.
+    interpreter = tf.lite.Interpreter(model_path="api/tensorflow/converted_model.tflite")
+    interpreter.allocate_tensors()
+
+    # Get input and output tensors.
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+
+    input_shape = input_details[0]['shape']
+
+    image = Image.open(file).resize((512, 512))
+    image = np.array(image)
+    input=image[np.newaxis, ...]
+
+    input_data = np.array(np.random.random_sample(input_shape), dtype=np.float32)
+    
+    input_data = np.array(input, dtype=np.float32)
+
+    interpreter.set_tensor(input_details[0]['index'], input_data)
+
+    interpreter.invoke()
+
+    output_data = interpreter.get_tensor(output_details[0]['index'])
 
     return {
         'prediction_id': uuid.uuid4(),
-        'classifiers': ['L-Shaped', 'Stone Countertop']
+        'classifiers': str(CLASSES[np.argmax(output_data[0], axis=-1)])
     }
 
 def configure_inference_handlers(app):
@@ -148,10 +188,8 @@ def configure_inference_handlers(app):
             return 'there is no image1 in the request!'
         
         file1 = request.files['image1']
-        time.sleep(4)
-        # images, labels, probs = get_predictions(model_ft, dataloaders['test'], device)
 
-        data = make_summary()
+        data = make_summary(file1)
         response = app.response_class(
             response=json.dumps(data),
             status=200,
