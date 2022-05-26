@@ -14,4 +14,4 @@ Software Tools Used :
    a) Python Flask
    b) Tensorflow
    c) Android / MLKit
-d) AWS
+   d) AWS
