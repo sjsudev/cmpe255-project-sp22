@@ -13,5 +13,5 @@ Existing Difficulties :
 Software Tools Used :
    a) Python Flask
    b) Tensorflow
-c) Android / MLKit
+   c) Android / MLKit
 d) AWS
