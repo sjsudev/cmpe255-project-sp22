@@ -6,4 +6,9 @@ Problem statement :
        b)Physical Quotes - Remodeling requires contractors to visit your home and estimate the costs. Also no DIY or pandemic friendly options available.
 Existing Difficulties : 
        There aren't enough open-source datasets to train a classification model for kitchens. To predict meaningful classifiers with high accuracy, a large dataset is required. For a real-time solution, low latency is required. 
-
+       
+Software Tools Used :
+a) Python Flask
+b) Tensorflow
+c) Android / MLKit
+d) AWS
